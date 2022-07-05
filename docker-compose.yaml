@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  roscore:
+    image: osrf/ros:noetic-desktop-full
+    network_mode: host
+    command: stdbuf -o L roscore
+
+  dynamxiel_action_server:
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: dynamixel/noetic:latest
+    environment:
+      - DISPLAY=${DISPLAY}
+      - "QT_X11_NO_MITSHM=1"
+      # - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      # - dynamxixel_as:/dynamixel_as
+      - /dev/shm:/dev/shm 
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+    network_mode: host
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    depends_on:
+      - roscore
+    command: roslaunch dynamixel_as start_dynamixel_action_server.launch --wait
+
+# volumes:
+#   dynamxixel_as:
+#    driver: local
+#    driver_opts:
+#     o: bind
+#     type: none
+#     device: ../dynamxixel_as

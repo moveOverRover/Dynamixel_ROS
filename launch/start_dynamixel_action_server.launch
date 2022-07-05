@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+    <node pkg="dynamixel_sdk_examples" name="dynamixel_sdk_node" type="read_write_node" output="screen" />
+    <node pkg="dynamixel_as" name="dynamixel_action_server_node" type="dynamixel_action_server.py" output="screen" />
+</launch>
