@@ -9,11 +9,6 @@ RUN pip install pyserial
 
 RUN apt-get update && apt-get -y upgrade
 
-ENV NVIDIA_VISIBLE_DEVICES \
-    ${NVIDIA_VISIBLE_DEVICES:-all}
-ENV NVIDIA_DRIVER_CAPABILITIES \
-    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
-
 SHELL ["/bin/bash", "-c"]
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -22,12 +17,16 @@ COPY . ../catkin_ws/src/dynamixel_as
 WORKDIR /catkin_ws
 
 RUN cd src && git clone -b noetic-devel https://github.com/ecoation-labs/DynamixelSDK.git
+RUN cd src && git clone -b noetic-devel https://github.com/ecoation-labs/dynamixel-workbench.git
+RUN cd src && git clone -b noetic-devel https://github.com/ecoation-labs/dynamixel-workbench-msgs.git
 
 RUN /bin/bash -c "source /opt/ros/noetic/setup.bash \
         && catkin build"
 
 RUN echo 'source "/opt/ros/noetic/setup.bash"' >> ~/.bashrc \
     && echo 'source "/catkin_ws/devel/setup.bash"' >> ~/.bashrc
+
+ENV DEBIAN_FRONTEND=interactive
 
 ADD my_ros_entrypoint.sh /usr/bin/my_ros_entrypoint
 RUN chmod +x /usr/bin/my_ros_entrypoint

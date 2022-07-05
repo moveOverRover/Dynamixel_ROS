@@ -2,11 +2,17 @@
 ### Detatched ROS nodes for giving inputs to a dynamixel servo over u2d2
 
 #### Terminal 1
-    clone this repo
+    clone this branch
     docker-compose up
 
-#### Terminal 2
-    docker exec -it dynamixel_as_dynamxiel_action_server_1 bash
-    rosrun dynamixel_as dynamixel_action_client_example.py 
+### Terminal 2
+    docker exec -it dynamixel_ros_dynamxiel_operator_1 bash
 
-#### Enjoy
+    rosservice call /dynamixel_workbench/dynamixel_command "command: ''
+id: 1
+addr_name: 'Goal_Position'
+value: 2048"
+
+    rosservice call /dynamixel_workbench/execution "{}"
+
+#### enjoy the demo
