@@ -16,7 +16,6 @@ services:
       - "QT_X11_NO_MITSHM=1"
       # - NVIDIA_VISIBLE_DEVICES=all
     volumes:
-      - Dynamixel_ROS:/Dynamixel_ROS
       - /dev/shm:/dev/shm 
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
@@ -38,7 +37,6 @@ services:
       - "QT_X11_NO_MITSHM=1"
       # - NVIDIA_VISIBLE_DEVICES=all
     volumes:
-      - Dynamixel_ROS:/Dynamixel_ROS
       - /dev/shm:/dev/shm 
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
@@ -50,10 +48,30 @@ services:
       - roscore
     command: roslaunch dynamixel_workbench_operators joint_operator.launch --wait
 
-  volumes:
-  dynamxixel_as:
-   driver: local
-   driver_opts:
-    o: bind
-    type: none
-    device: ../Dynamixel_ROS
+  dynamxiel_action_server:
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: dynamixel-workbench/noetic:latest
+    environment:
+      - DISPLAY=${DISPLAY}
+      - "QT_X11_NO_MITSHM=1"
+      # - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - Dynamixel_ROS:/Dynamixel_ROS
+      - /dev/shm:/dev/shm 
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    network_mode: host
+    depends_on:
+      - roscore
+    command: rosrun dynamixel_as_adapter dynamixel_action_server.py --wait
+
+volumes:
+  Dynamixel_ROS:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ../Dynamixel_ROS

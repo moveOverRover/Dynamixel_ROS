@@ -1,6 +1,0 @@
-pan:
-  ID: 1
-  Return_Delay_Time: 0
-  Operating_Mode: 3
-  Profile_Acceleration: 3 # 214.577 rev/min^2 I wil just guess and set really low
-  Profile_Velocity: 87 # 1sec/((0.229rev/min)/(60sec/1min)) = 263.157894737 rev -> 0.229*263 ~ 1rev/sec

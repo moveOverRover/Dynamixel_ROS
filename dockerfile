@@ -13,7 +13,7 @@ SHELL ["/bin/bash", "-c"]
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN mkdir -p /catkin_ws/src
-COPY . ../catkin_ws/src/dynamixel_as
+COPY . ../catkin_ws/src/Dynamixel_ROS
 WORKDIR /catkin_ws
 
 RUN cd src && git clone -b noetic-devel https://github.com/ecoation-labs/DynamixelSDK.git
