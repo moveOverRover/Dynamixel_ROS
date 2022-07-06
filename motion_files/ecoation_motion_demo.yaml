@@ -1,0 +1,13 @@
+joint:
+  names: [pan]
+motion:
+  names: [right, zero, left]
+  right:
+    step: [4.18879]  #  240 deg
+    time_from_start: 2.0  # sec
+  zero:
+    step: [2.61799] # 150
+    time_from_start: 3.0
+  left:
+    step: [1.0472] # 60
+    time_from_start: 6.0
